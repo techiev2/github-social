@@ -8,6 +8,7 @@ sys.dont_write_bytecode = True
 
 from GitHubAccess import GitHub
 from copy import deepcopy
+import argparse
 
 
 def main():
@@ -40,5 +41,14 @@ def main():
         print username, len(github_obj.get_user_info(username, action='repos', returns=True))
 
 
+ArgParser = argparse.ArgumentParser()
+
+ArgParser.add_argument('creds_file', metavar='f', type=str,
+                    help='Credentials file')
+ArgParser.add_argument('--c', dest='accumulate', action='store_const',
+                       const=main, default=max)
+
+
 if __name__ == '__main__':
+
     main()
