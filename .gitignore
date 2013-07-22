@@ -1,0 +1,8 @@
+*.json
+*.py[c|o]
+*coverage*
+.project
+.pydevproject
+htmlcov*
+*.idea*
+*creds*  # Remove any creds files from pushed in
