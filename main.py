@@ -7,48 +7,38 @@ import sys
 sys.dont_write_bytecode = True
 
 from GitHubAccess import GitHub
-from copy import deepcopy
+import getpass
 import argparse
 
 
-def main():
-    """Main caller method"""
-    github_obj = GitHub(creds=(None, None),
-                        config={
-                            'reverse': True,
-                            'auth': True,
-                            'safe_json': True
-                        })
-    repos = github_obj.search_repos({
-        'keyword': 'shell',
-        'sort': 'followers',
-        'order': 'desc'
-    }, returns=True).get('repositories', [])
-    owners = {}
-    for repo in repos:
-        owner = repo.get('owner')
-        if owner in owners.keys():
-            owners[owner] += 1
-        else:
-            owners[owner] = 1
-
-    owners_dup = deepcopy(owners)
-    for (key, val) in owners.iteritems():
-        if val < 2:
-            owners_dup.pop(key)
-
-    for (username, repo_count) in owners_dup.iteritems():
-        print username, len(github_obj.get_user_info(username, action='repos', returns=True))
-
-
-ArgParser = argparse.ArgumentParser()
-
-ArgParser.add_argument('creds_file', metavar='f', type=str,
-                    help='Credentials file')
-ArgParser.add_argument('--c', dest='accumulate', action='store_const',
-                       const=main, default=max)
+AP = argparse.ArgumentParser(description="Creds loader")
+AP.add_argument("--creds", help="Credentials file name")
 
 
 if __name__ == '__main__':
+    creds = None
+    creds_file = AP.parse_args().__getattribute__('creds')
+    no_creds = "No credentials file provided. Defaulting to shell input"
+    uname_input = "Please enter your GitHub username to authenticate: "
+    upass_input = "Please enter your GitHub password to authenticate: "
+    if not creds_file:
+        print no_creds
+        uname = raw_input(uname_input)
+        upass = getpass.getpass(upass_input)
+        if (uname and upass):
+            creds = (uname, upass)
+    else:
+        with open(creds_file, "r") as cfile:
+            creds = cfile.read()
+        creds = tuple([x.strip() for x in creds.split(",")])
 
-    main()
+    if not creds:
+        raise Exception("No credentials found. Exiting")
+
+    github_obj = GitHub(creds=creds,
+                        config={
+                            'reverse': False,
+                            'auth': True,
+                            'safe_json': True
+                        })
+    print github_obj.response
