@@ -38,7 +38,7 @@ class GitHub(object):
         """
         ex_msg = "Invalid data structure passed in. Need a creds tuple"
         default_config_msg = "Invalid config construct. Defaulting"
-        if not isinstance(creds, tuple):
+        if not isinstance(creds, tuple) or (not creds[0] or creds[1]):
             raise Exception(ex_msg)
 
         self.config = config
