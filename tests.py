@@ -15,21 +15,22 @@ class BaseTests(unittest.TestCase):
         """Base tests setup. Initialize a github object instance."""
         self.response = None
         self.creds = get_auth(returns=True)
-        self.github_obj = GitHub(creds=self.creds,
-                                 config={
-                                     'reverse': False,
-                                     'auth': True,
-                                     'safe_json': True
-                                 })
+        self.github_obj = GitHub(creds=self.creds['creds'],
+                        config={
+                            'reverse': False,
+                            'auth': True,
+                            'safe_json': True,
+                            'client_data': self.creds['client']
+                        })
 
-    def testGetData(self):
-        """Test get data method. Must return <dict>"""
-        self.response = self.github_obj._get_data(
-            'https://api.github.com/users/techiev2', returns=True)
-        self.assertIsNotNone(self.response.get("public_repos", None))
-        assert self.response.get('public_repos', None) is not None
-        self.assertIsInstance(self.response, dict)
-
+    # def testGetData(self):
+    #     """Test get data method. Must return <dict>"""
+    #     self.response = self.github_obj._get_data(
+    #         'https://api.github.com/users/techiev2', returns=True)
+    #     self.assertIsNotNone(self.response.get("public_repos", None))
+    #     assert self.response.get('public_repos', None) is not None
+    #     self.assertIsInstance(self.response, dict)
+    #
     def testAuth(self):
         """Test private session authorize method"""
         self.github_obj._auth_session()
