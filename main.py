@@ -20,6 +20,8 @@ def get_auth(returns=True):
     no_creds = "No credentials file provided. Defaulting to shell input"
     uname_input = "Please enter your GitHub username to authenticate: "
     upass_input = "Please enter your GitHub password to authenticate: "
+    # client_id_input = "Please enter your GitHub client ID: "
+    # client_secret_input = "Please enter your GitHub client secret: "
     if not creds_file:
         print no_creds
         uname = raw_input(uname_input)
@@ -27,6 +29,7 @@ def get_auth(returns=True):
         if (uname and upass):
             creds = (uname, upass)
     else:
+        #TODO: Fix a loadable json config loader.
         with open(creds_file, "r") as cfile:
             creds = cfile.read()
         creds = tuple([x.strip() for x in creds.split(",")])
@@ -39,11 +42,18 @@ def get_auth(returns=True):
 
 
 if __name__ == '__main__':
-    USER_CREDS = get_auth(returns=True)
-    GH_OBJ = GitHub(creds=USER_CREDS,
+    USER_CREDS = {
+        'creds': get_auth(returns=True),
+        'client': {
+            'client_id': '',
+            'client_secret': ''
+        }
+    }
+    GH_OBJ = GitHub(creds=USER_CREDS['creds'],
                         config={
                             'reverse': False,
                             'auth': True,
-                            'safe_json': True
+                            'safe_json': True,
+                            'client_data': USER_CREDS['client']
                         })
     print GH_OBJ.response
