@@ -45,7 +45,7 @@ class GitHub(object):
         self.base_url = "https://api.github.com"
         (self.session, self.request,
          self.response, self.token,
-         self.auth) = (None, None, None, None, None)
+         self.auth, self.client_data) = (None, None, None, None, None, None)
 
         if not isinstance(self.config, dict):
             logging.warning(default_config_msg)
@@ -56,11 +56,15 @@ class GitHub(object):
                 'safe_json': True
             }
 
+        if not self.config.get('client_data'):
+            raise Exception("No API client data available in invocation")
+
         if not self.config.get('pretty') in TRUE:
             self.config['pretty'] = False
 
         self.uname = creds[0]
         self.upass = creds[1]
+        self.client_data = self.config.get('client_data')
 
         if self.config.get('reverse', None):
             self._reverse_upass()
@@ -94,17 +98,17 @@ class GitHub(object):
         """
         self.session = requests.Session()
         self.auth = HTTPBasicAuth(*self.creds)
+        data = self.client_data
+        data.update({
+            'scopes': [
+                'repo'
+            ]
+        })  # Needs to be updatable from config. #TODO
 
         self.response = self.session.post(
             'https://api.github.com/authorizations',
             auth=self.auth,
-            data=json.dumps({
-                'scopes': [
-                    'repo'
-                ],
-                'client_id': '5296b27cb26ad43f3d8a',
-                'client_secret': '4c1282c5438883d3cdd3b0d109254cefdb74bb06'
-            })
+            data=json.dumps(data)
         )
         content = self.response.__getattribute__('_content')
         if content:
