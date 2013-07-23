@@ -11,12 +11,11 @@ import getpass
 import argparse
 
 
-AP = argparse.ArgumentParser(description="Creds loader")
-AP.add_argument("--creds", help="Credentials file name")
-
-
-if __name__ == '__main__':
+def get_auth(returns=True):
+    """Get authentication data"""
     creds = None
+    AP = argparse.ArgumentParser(description="Creds loader")
+    AP.add_argument("--creds", help="Credentials file name")
     creds_file = AP.parse_args().__getattribute__('creds')
     no_creds = "No credentials file provided. Defaulting to shell input"
     uname_input = "Please enter your GitHub username to authenticate: "
@@ -35,6 +34,12 @@ if __name__ == '__main__':
     if not creds:
         raise Exception("No credentials found. Exiting")
 
+    if returns:
+        return creds
+
+
+if __name__ == '__main__':
+    creds = get_auth(returns=True)
     github_obj = GitHub(creds=creds,
                         config={
                             'reverse': False,
