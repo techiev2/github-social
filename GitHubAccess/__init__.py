@@ -179,6 +179,7 @@ class GitHub(object):
     def get_user_info(self, username=None, action=None, returns=False):
         """
         Get user information helper.
+        :param returns:bool Boolean check to return response data
         :param username:str Username for users end point search
         :param action:str Action for user to search for.
                         Currently supports only repos.
