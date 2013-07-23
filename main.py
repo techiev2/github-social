@@ -4,6 +4,7 @@
 __author__ = 'sriramm'
 
 import sys
+
 sys.dont_write_bytecode = True
 
 from GitHubAccess import GitHub
@@ -33,7 +34,7 @@ def get_auth(returns=True):
         client_id = raw_input(client_id_input) or ''
         client_secret = raw_input(client_secret_input) or ''
 
-        if (uname and upass):
+        if uname and upass:
             creds = (uname, upass)
 
         client = {
@@ -67,12 +68,12 @@ def get_auth(returns=True):
 
 
 if __name__ == '__main__':
-    USER_CREDS = get_auth(returns=True)
+    USER_CREDS = get_auth()
     GH_OBJ = GitHub(creds=USER_CREDS['creds'],
-                        config={
-                            'reverse': False,
-                            'auth': True,
-                            'safe_json': True,
-                            'client_data': USER_CREDS['client']
-                        })
+                    config={
+                        'reverse': False,
+                        'auth': True,
+                        'safe_json': True,
+                        'client_data': USER_CREDS['client']
+                    })
     print GH_OBJ.response
