@@ -29,7 +29,8 @@ def get_auth(returns=True):
     Get authentication data
     :param returns:bool Boolean check to return data from get_auth
     """
-    (creds, client) = (None, None)
+    (creds, client, uname, upass, client_id, client_secret)\
+        = (None, None, None, None, None, None)
     user_creds = {}
     arg_parser = argparse.ArgumentParser(description="Creds loader")
     arg_parser.add_argument("--creds", help="Credentials file name")
@@ -318,8 +319,11 @@ class GitHub(object):
         if not (user_name and isinstance(user_name, str)):
             raise Exception("No valid username provided. Exiting")
         base_url =  "{0}/users/{1}/events/public".format(self.base_url, user_name)
-        self.response = self._get_data(base_url, 'get', {}, True)
+        self.response = self._get_data(
+            url=base_url,
+            data={},
+            returns=True)
         if returns:
             return self.response
 
-__all__ = ['GitHub']
+__all__ = ['GitHub', 'get_auth']
