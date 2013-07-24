@@ -31,4 +31,4 @@ Session authorization method. Depends on creds instance member for username/pass
 ####Requirements: #####
 Uses the following modules/builtins
 + ```requests``` _Uses requests module for HTTP access to GitHub API end points. Simple reason, convenience. Not considering a fallback httplib2_
-+ ```json``` _JSON loader for response data. Doesn't assume a fallback to simplejson._
++ ```json``` _JSON loader for response data._

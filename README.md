@@ -21,4 +21,4 @@ Analyzer to determine the metrics of how starring/forking events of influential 
 Uses the following modules/builtins
 + ```getpass``` _For password entry in case of a creds file absence_
 + ```argparse``` _Argument parsing for credentials._
-+ ```json``` _JSON loader for creds file data. Doesn't assume a fallback to simplejson._
++ ```json``` _JSON loader for creds file data._
