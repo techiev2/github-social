@@ -16,3 +16,12 @@ Analyzer to determine the metrics of how starring/forking events of influential 
     "client_secret": <client secret for existing client> [optional]
 }
 ```
+
+####Requirements: #####
+Uses the following modules/builtins
++ getpass
+    For password entry in case of a creds file absence
++ argparse
+    Argument parsing for credentials.
++ json
+    JSON loader for creds file data. Doesn't assume a fallback to simplejson.
