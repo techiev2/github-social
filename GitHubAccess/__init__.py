@@ -37,7 +37,9 @@ def get_auth(returns=True):
         'uname_input': "Please enter your GitHub username to authenticate: ",
         'upass_input': "Please enter your GitHub password to authenticate: ",
         'client_id_input': "Please enter your GitHub client ID: ",
-        'client_secret_input': "Please enter your GitHub client secret: "
+        'client_secret_input': "Please enter your GitHub client secret: ",
+        'exit_msg': "\nKeyboard interrupt. Exiting",
+        'no_creds_msg': "No credentials found. Exiting"
     }
     arg_parser = argparse.ArgumentParser(description="Creds loader")
     arg_parser.add_argument("--creds", help="Credentials file name")
@@ -51,7 +53,7 @@ def get_auth(returns=True):
             client_id = raw_input(msgs['client_id_input']) or ''
             client_secret = raw_input(['client_secret_input']) or ''
         except KeyboardInterrupt:
-            quit("\nKeyboard interrupt. Exiting")
+            quit(msgs['exit_msg'])
 
         if uname and upass:
             creds = (uname, upass)
@@ -77,7 +79,7 @@ def get_auth(returns=True):
             pass
 
     if not creds:
-        raise Exception("No credentials found. Exiting")
+        raise Exception(msgs['no_creds_msg'])
 
     user_creds['creds'] = creds
     user_creds['client'] = client
