@@ -34,10 +34,13 @@ def get_auth(returns=True):
     client_secret_input = "Please enter your GitHub client secret: "
     if not creds_file:
         print no_creds
-        uname = raw_input(uname_input)
-        upass = getpass.getpass(upass_input)
-        client_id = raw_input(client_id_input) or ''
-        client_secret = raw_input(client_secret_input) or ''
+        try:
+            uname = raw_input(uname_input)
+            upass = getpass.getpass(upass_input)
+            client_id = raw_input(client_id_input) or ''
+            client_secret = raw_input(client_secret_input) or ''
+        except KeyboardInterrupt:
+            quit("\nKeyboard interrupt. Exiting")
 
         if uname and upass:
             creds = (uname, upass)
