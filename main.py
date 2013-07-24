@@ -76,4 +76,5 @@ if __name__ == '__main__':
                         'safe_json': True,
                         'client_data': USER_CREDS['client']
                     })
-    print GH_OBJ.response
+    GH_OBJ.get_repo_info('Imaginea', 'Stitchemapp', exclude=['owner'])
+    print GH_OBJ.response.keys()
