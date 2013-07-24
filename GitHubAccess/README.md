@@ -21,3 +21,9 @@ Session authorization method. Depends on creds instance member for username/pass
 + ```:param repo_name:str```        Repository name to search for, scoped under <user_name>'s repos
 + ```:param fields:(list, tuple)``` Fields to return in query response.
 + ```:param returns: bool```        Boolean kwarg to specify if the method needs to return response after updating the instance response member.
+
+
+####Requirements: #####
+Uses the following modules/builtins
++ ```requests``` _Uses requests module for HTTP access to GitHub API end points. Simple reason, convenience. Not considering a fallback httplib2_
++ ```json``` _JSON loader for response data. Doesn't assume a fallback to simplejson._
