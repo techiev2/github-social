@@ -229,7 +229,7 @@ class GitHub(object):
             self.response = response
 
         if returns:
-            return response
+            return self.response
 
     def search_repos(self, query=None, returns=False):
         """
