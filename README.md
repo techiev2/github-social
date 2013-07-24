@@ -5,6 +5,8 @@ Analyzer to determine the metrics of how starring/forking events of influential 
 ####Usage: #####
 ```python main.py --creds <creds_file>```
 
++ main picks up get_auth from GitHubAccess which is a base loader for authentication and client data. Could be replaced with custom data loaders for implementations.
+
 + If creds argument is missing main's get_auth method defaults to terminal based input using raw_input and getpass.
 
 + Structure for creds_file
