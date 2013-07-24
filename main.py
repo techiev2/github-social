@@ -84,6 +84,8 @@ if __name__ == '__main__':
                         'safe_json': True,
                         'client_data': USER_CREDS['client']
                     })
-    repo_info = GH_OBJ.get_repo_info('Imaginea', 'Stitchemapp', fields=['owner'],
+    REPO_INFO = GH_OBJ.get_repo_info(user_name='Imaginea',
+                                     repo_name='Stitchemapp',
+                                     fields=['owner'],
                                      returns=True)
-    print repo_info
+    print REPO_INFO.keys()
