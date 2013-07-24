@@ -3,6 +3,11 @@
 
 __author__ = 'sriramm'
 
+#pylint:disable=W0511,R0914
+# Disables
+# W0511 : TODO tracks
+# R0914 : Instance attribute count
+
 import sys
 
 sys.dont_write_bytecode = True
@@ -76,5 +81,6 @@ if __name__ == '__main__':
                         'safe_json': True,
                         'client_data': USER_CREDS['client']
                     })
-    GH_OBJ.get_repo_info('Imaginea', 'Stitchemapp', exclude=['owner'])
-    print GH_OBJ.response.keys()
+    repo_info = GH_OBJ.get_repo_info('Imaginea', 'Stitchemapp', fields=['owner'],
+                                     returns=True)
+    print repo_info
