@@ -7,7 +7,7 @@ Base class that provides helper methods to authenticate a session and fetch user
 
 ####Instance methods####
 #####- _auth_session#####
-Session authorization method. Depends on creds instance member for username/password and config member for client data.
+Session authorization method. Depends on creds instance member for username/password and config member for client data. Class init calls this method and is exposed only for tests.
 
 #####- get_user_info#####
 + ```:param user_name:str``` Username to get information for.
