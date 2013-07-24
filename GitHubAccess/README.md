@@ -1,7 +1,7 @@
-###GitHubAccess###
+##GitHubAccess##
 Base class that provides helper methods to authenticate a session and fetch user/repository/event information. Exposes the following instance methods
 
-####Module exports####
+###Module exports###
 - ```get_auth : method```
 Provides a base loader for authentication data from a JSON(ic) data construct with the below data structure. Could be replaced with custom data loader to provide authentication credentials and client data to GitHubAccess object invocation.
 
@@ -18,13 +18,13 @@ Provides a base loader for authentication data from a JSON(ic) data construct wi
 - ```GitHubAccess : Class```
 Provides base class for accessing various GitHub API end points.
 
-####GitHubAccess instance members####
+###GitHubAccess instance members###
 - ```response```
 Contains the response for the previous API call and is updated whenever an API access method is invoked.
 - ```session```
 Requests session instance that contains authorization information updated during _auth_session call.
 
-####GitHubAccess instance methods####
+###GitHubAccess instance methods###
 #####- _auth_session#####
 Session authorization method. Depends on creds instance member for username/password and config member for client data. Class init calls this method and is exposed only for tests.
 
