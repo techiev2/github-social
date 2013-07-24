@@ -44,7 +44,7 @@ def get_auth(returns=True):
     arg_parser = argparse.ArgumentParser(description="Creds loader")
     arg_parser.add_argument("--creds", help="Credentials file name")
     creds_file = arg_parser.parse_args().__getattribute__('creds')
-    
+
     if not creds_file:
         print msgs['no_creds']
         try:
@@ -313,7 +313,8 @@ class GitHub(object):
         if returns:
             return response
 
-    def get_user_events(self, user_name=None, organization=False, returns=False):
+    def get_user_events(self, user_name=None,
+                        organization=False, returns=False):
         """
         Get public events initiated by specified user.
         :param user_name:str Username to query against.
@@ -321,15 +322,19 @@ class GitHub(object):
                     Method returns response if True;
                     else updates response class member
         """
+        user_events_url = "{0}/users/{1}/events/public"
+        user_org_events_url = "{0}/users/{1}/events/orgs/{2}"
+        exception_msg = "No valid organization name provided. Exiting"
         if not (user_name and isinstance(user_name, str)):
             raise Exception("No valid username provided. Exiting")
         if not organization:
-            base_url =  "{0}/users/{1}/events/public".format(self.base_url, user_name)
+            base_url = user_events_url.format(self.base_url, user_name)
         else:
             if not isinstance(organization, str):
-                raise Exception("No valid organization name provided. Exiting")
-            base_url = base_url =  "{0}/users/{1}/events/orgs/{2}".format(
-                                      self.base_url, user_name, organization)
+                raise Exception(exception_msg)
+            base_url = user_org_events_url.format(self.base_url,
+                                                  user_name,
+                                                  organization)
 
         self.response = self._get_data(
             url=base_url,
