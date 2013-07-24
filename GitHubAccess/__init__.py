@@ -34,7 +34,7 @@ class GitHub(object):
                 reverse: Reversed user password boolean
                 auth: Boolean for dry run switch.
                             Doesn't initiate auth method if False
-                pretty: Boolean to pretty print response data wherever applicable
+                pretty: Boolean to pretty print response wherever applicable
                 safe_json: Boolean to return safe JSON for use with Javascript.
         """
         ex_msg = "Invalid data structure passed in. Need a creds tuple"
@@ -198,12 +198,17 @@ class GitHub(object):
             return self._get_data(base_url.format(
                 username, action), returns=returns)
 
-    def get_repo_info(self, user_name=None, repo_name=None, exclude=None):
+    def get_repo_info(self, user_name=None,
+                      repo_name=None, fields=None, returns=False):
         """Get repository information
         :rtype : None
         :param user_name:str Username for repository search.
                             Defaults to session user
         :param repo_name:str Repository name to fetch information for.
+        :param fields:list|tuple List of fields to retain
+                                    in the returned response data.
+        :param returns:bool Boolean switch to specify if the
+                                    method needs to return response.
         """
         url = "{0}/repos/{1}/{2}"
         if not repo_name:
@@ -213,15 +218,18 @@ class GitHub(object):
 
         url = url.format(self.base_url, user_name, repo_name)
         self._get_data(url)
-        if exclude and (isinstance(exclude, list)
-                        or isinstance(exclude, tuple)):
+        if fields and (isinstance(fields, list)
+                       or isinstance(fields, tuple)):
             self.response = json.loads(self.response)
             response = deepcopy(self.response)
             response_copy = deepcopy(response)
             for key in response_copy.iterkeys():
-                if key in exclude:
+                if key not in fields:
                     response.pop(key)
             self.response = response
+
+        if returns:
+            return response
 
     def search_repos(self, query=None, returns=False):
         """
