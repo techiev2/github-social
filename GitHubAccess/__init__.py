@@ -15,6 +15,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 import json
 import logging
+from copy import deepcopy
 
 # Boolean checklist. Could be a case for ast ?
 TRUE = [True, 1, '1', 'True']
@@ -197,7 +198,7 @@ class GitHub(object):
             return self._get_data(base_url.format(
                 username, action), returns=returns)
 
-    def get_repo_info(self, user_name=None, repo_name=None):
+    def get_repo_info(self, user_name=None, repo_name=None, exclude=None):
         """Get repository information
         :rtype : None
         :param user_name:str Username for repository search.
@@ -212,6 +213,15 @@ class GitHub(object):
 
         url = url.format(self.base_url, user_name, repo_name)
         self._get_data(url)
+        if exclude and (isinstance(exclude, list)
+                        or isinstance(exclude, tuple)):
+            self.response = json.loads(self.response)
+            response = deepcopy(self.response)
+            response_copy = deepcopy(response)
+            for key in response_copy.iterkeys():
+                if key in exclude:
+                    response.pop(key)
+            self.response = response
 
     def search_repos(self, query=None, returns=False):
         """
