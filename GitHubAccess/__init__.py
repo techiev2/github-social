@@ -32,21 +32,24 @@ def get_auth(returns=True):
     (creds, client, uname, upass, client_id, client_secret)\
         = (None, None, None, None, None, None)
     user_creds = {}
+    msgs = {
+        'no_creds': "No credentials file provided. Defaulting to shell input",
+        'uname_input': "Please enter your GitHub username to authenticate: ",
+        'upass_input': "Please enter your GitHub password to authenticate: ",
+        'client_id_input': "Please enter your GitHub client ID: ",
+        'client_secret_input': "Please enter your GitHub client secret: "
+    }
     arg_parser = argparse.ArgumentParser(description="Creds loader")
     arg_parser.add_argument("--creds", help="Credentials file name")
     creds_file = arg_parser.parse_args().__getattribute__('creds')
-    no_creds = "No credentials file provided. Defaulting to shell input"
-    uname_input = "Please enter your GitHub username to authenticate: "
-    upass_input = "Please enter your GitHub password to authenticate: "
-    client_id_input = "Please enter your GitHub client ID: "
-    client_secret_input = "Please enter your GitHub client secret: "
+    
     if not creds_file:
-        print no_creds
+        print msgs['no_creds']
         try:
-            uname = raw_input(uname_input)
-            upass = getpass.getpass(upass_input)
-            client_id = raw_input(client_id_input) or ''
-            client_secret = raw_input(client_secret_input) or ''
+            uname = raw_input(msgs['uname_input'])
+            upass = getpass.getpass(msgs['upass_input'])
+            client_id = raw_input(msgs['client_id_input']) or ''
+            client_secret = raw_input(['client_secret_input']) or ''
         except KeyboardInterrupt:
             quit("\nKeyboard interrupt. Exiting")
 
@@ -308,7 +311,7 @@ class GitHub(object):
         if returns:
             return response
 
-    def get_user_events(self, user_name=None, returns=False):
+    def get_user_events(self, user_name=None, organization=False, returns=False):
         """
         Get public events initiated by specified user.
         :param user_name:str Username to query against.
@@ -318,7 +321,14 @@ class GitHub(object):
         """
         if not (user_name and isinstance(user_name, str)):
             raise Exception("No valid username provided. Exiting")
-        base_url =  "{0}/users/{1}/events/public".format(self.base_url, user_name)
+        if not organization:
+            base_url =  "{0}/users/{1}/events/public".format(self.base_url, user_name)
+        else:
+            if not isinstance(organization, str):
+                raise Exception("No valid organization name provided. Exiting")
+            base_url = base_url =  "{0}/users/{1}/events/orgs/{2}".format(
+                                      self.base_url, user_name, organization)
+
         self.response = self._get_data(
             url=base_url,
             data={},
