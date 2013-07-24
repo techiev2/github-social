@@ -5,4 +5,4 @@
 .pydevproject
 htmlcov*
 *.idea*
-*creds*  # Remove any creds files from pushed in
+*creds*  # Remove any creds files from being pushed in
