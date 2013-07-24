@@ -6,3 +6,4 @@
 htmlcov*
 *.idea*
 *creds*  # Remove any creds files from being pushed in
+.settings*
