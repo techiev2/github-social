@@ -1,5 +1,5 @@
 ##GitHubAccess##
-Base class that provides helper methods to authenticate a session and fetch user/repository/event information. Exposes the following instance methods
+Module that provides helper methods to authenticate a GitHub API session and operate with the API end points including fetch user/repository/event information.
 
 ###Module exports###
 - ```get_auth : method```
