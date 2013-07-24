@@ -177,22 +177,22 @@ class GitHub(object):
 
         return query_res
 
-    def get_user_info(self, username=None, action=None, returns=False):
+    def get_user_info(self, user_name=None, action=None, returns=False):
         """
         Get user information helper.
         :param returns:bool Boolean check to return response data
-        :param username:str Username for users end point search
+        :param user_name:str Username for users end point search
         :param action:str Action for user to search for.
                         Currently supports only repos.
         """
         base_url = 'https://api.github.com/users/{0}/{1}'
         allowed_actions = ['repos']
-        username = username or self.uname
+        user_name = user_name or self.uname
 
-        if action not in allowed_actions:
+        if not action in allowed_actions:
             action = "repos"
         action = action.lower()
-        username = username.lower()
+        username = user_name.lower()
 
         if returns:
             return self._get_data(base_url.format(
