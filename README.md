@@ -9,15 +9,6 @@ Analyzer to determine the metrics of how starring/forking events of influential 
 
 + If creds argument is missing main's get_auth method defaults to terminal based input using raw_input and getpass.
 
-+ Structure for creds_file
-```json
-{
-    "uname": <github username> [required],
-    "upass": <github user password> [required],
-    "client_id": <client id for an existing registered app on Github> [optional],
-    "client_secret": <client secret for existing client> [optional]
-}
-```
 
 ####Requirements: #####
 Uses the following modules/builtins
