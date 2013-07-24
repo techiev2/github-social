@@ -23,10 +23,10 @@ Session authorization method. Depends on creds instance member for username/pass
 + ```:param returns: bool```        Boolean kwarg to specify if the method needs to return response after updating the instance response member.
 
 ####- _get_data####
-+ ```:param url:str```                    URL for a known API end point to hit.
++ ```:param url:str```                       URL for a known API end point to hit.
 + ```:param method:<HTTP Method string>```   ['GET', 'POST', 'PUT', 'HEAD', 'DELETE'] as accepted by the end point.
-+ ```:param data:dict                     HTTP Request data as a dictionary. Would be stringified prior to submission.
-+ ```:param returns: bool```              Boolean kwarg to specify if the method needs to return response after updating the instance response member.
++ ```:param data:dict```                     HTTP Request data as a dictionary. Would be stringified prior to submission.
++ ```:param returns: bool```                 Boolean kwarg to specify if the method needs to return response after updating the instance response member.
 
 ####Requirements: #####
 Uses the following modules/builtins
