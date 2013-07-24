@@ -9,13 +9,9 @@ __author__ = 'sriramm'
 # R0914 : Instance attribute count
 
 import sys
-
 sys.dont_write_bytecode = True
 
 from GitHubAccess import GitHub, get_auth
-# import getpass
-# import argparse
-# import json
 
 
 if __name__ == '__main__':
