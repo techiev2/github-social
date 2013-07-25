@@ -31,6 +31,7 @@ def load_json_file(file_name=None):
     """
     JSON file loader helper.
     Could be used with get_auth or its replacements.
+    :param file_name:str Path for json(ic) file to load from disk.
     """
     response = {}
     if not file_name:
