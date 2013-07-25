@@ -9,6 +9,15 @@ Analyzer to determine the metrics of how starring/forking events of influential 
 
 + If creds argument is missing main's get_auth method defaults to terminal based input using raw_input and getpass.
 
++ main currently provides a basic run through of all[/required] instance methods from a GitHub instance towards a coverage check/assertion testing. Data for methods to run are loaded with load_json_file from GitHubAccess module and are required to be of the specified format.
+	Data structure for load_json target file for main.
+    ```python
+    {
+        "methods": {
+        	"<GitHub instance method name>": "<method params>"
+        }
+    }
+    ```
 
 ####Requirements: #####
 Uses the following modules/builtins
