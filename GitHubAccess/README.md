@@ -3,7 +3,7 @@ Module that provides helper methods to authenticate a GitHub API session and ope
 
 ###Module exports###
 - ```get_auth : method```
-Provides a base loader for authentication data from a JSON(ic) data construct with the below data structure. Could be replaced with custom data loader to provide authentication credentials and client data to GitHubAccess object invocation.
+Provides a base loader for authentication data from a JSON(ic) data construct with the below data structure. Could be replaced with custom data loader to provide authentication credentials and client data to GitHubAccess object invocation. Would be internally calling load_json_file method after a future changeset.
 
     Data structure for creds_file
     ```python
@@ -14,6 +14,10 @@ Provides a base loader for authentication data from a JSON(ic) data construct wi
         "client_secret": <client secret for existing client> [optional]
     }
     ```
+
+- ```load_json_file : method```
+Provides a base loader for JSON(ic) data construct with the below data structure. Could be replaced with custom data loader to provide authentication credentials and client data to GitHubAccess object invocation.
+
 
 - ```GitHub : Class```
 Provides base class for accessing various GitHub API end points.
