@@ -15,16 +15,16 @@ Provides a base loader for authentication data from a JSON(ic) data construct wi
     }
     ```
 
-- ```GitHubAccess : Class```
+- ```GitHub : Class```
 Provides base class for accessing various GitHub API end points.
 
-###GitHubAccess instance members###
+###GitHub instance members###
 - ```response```
 Contains the response for the previous API call and is updated whenever an API access method is invoked.
 - ```session```
 Requests session instance that contains authorization information updated during _auth_session call.
 
-###GitHubAccess instance methods###
+###GitHub instance methods###
 #####- _auth_session#####
 Session authorization method. Depends on creds instance member for username/password and config member for client data. Class init calls this method and is exposed only for tests.
 
