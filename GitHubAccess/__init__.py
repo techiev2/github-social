@@ -23,8 +23,34 @@ import getpass
 TRUE = [True, 1, '1', 'True']
 FALSE = [False, [], None, 0, '0', 'False', 'None']
 
+arg_parser = argparse.ArgumentParser(description="Creds loader")
+arg_parser.add_argument("--creds", help="Credentials file name")
 
-def get_auth(returns=True):
+
+def load_json_file(file_name=None):
+    """
+    JSON file loader helper.
+    Could be used with get_auth or its replacements.
+    """
+    response = {}
+    if not file_name:
+        raise Exception("No file name specified for loading")
+    try:
+        with open(file_name, "r") as data_file:
+            response = reduce(lambda a, b: a.strip() + b.strip(), data_file.readlines())
+    except IOError:
+        raise Exception("Unable to find specified file")  # Fail gracefully and send {} ?
+
+    if (isinstance(response, str) or isinstance(response, unicode)):
+        try:
+            response = json.loads(response)
+        except ValueError:
+            raise Exception("Unable to parse ") 
+
+    return response
+
+
+def get_auth(returns=True, creds_file=False):
     """
     Get authentication data
     :param returns:bool Boolean check to return data from get_auth
@@ -41,8 +67,6 @@ def get_auth(returns=True):
         'exit_msg': "\nKeyboard interrupt. Exiting",
         'no_creds_msg': "No credentials found. Exiting"
     }
-    arg_parser = argparse.ArgumentParser(description="Creds loader")
-    arg_parser.add_argument("--creds", help="Credentials file name")
     creds_file = arg_parser.parse_args().__getattribute__('creds')
 
     if not creds_file:
@@ -325,12 +349,14 @@ class GitHub(object):
         user_events_url = "{0}/users/{1}/events/public"
         user_org_events_url = "{0}/users/{1}/events/orgs/{2}"
         exception_msg = "No valid organization name provided. Exiting"
-        if not (user_name and isinstance(user_name, str)):
+        if not (user_name or not (isinstance(user_name, str)
+                               or isinstance(user_name, unicode))):
             raise Exception("No valid username provided. Exiting")
         if not organization:
             base_url = user_events_url.format(self.base_url, user_name)
         else:
-            if not isinstance(organization, str):
+            if not (organization or not (isinstance(organization, str)
+                               or isinstance(organization, unicode))):
                 raise Exception(exception_msg)
             base_url = user_org_events_url.format(self.base_url,
                                                   user_name,
@@ -339,8 +365,8 @@ class GitHub(object):
         self.response = self._get_data(
             url=base_url,
             data={},
-            returns=True)
+            returns=returns)
         if returns:
             return self.response
 
-__all__ = ['GitHub', 'get_auth']
+__all__ = ['GitHub', 'get_auth', 'arg_parser']
