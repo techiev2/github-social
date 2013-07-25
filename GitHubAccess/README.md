@@ -22,6 +22,27 @@ Provides a base loader for JSON(ic) data construct with the below data structure
 - ```GitHub : Class```
 Provides base class for accessing various GitHub API end points.
 
+###GitHub instance init params####
+```python
+{
+	creds : <tuple>,
+    config : {
+        'reverse': <boolean>,
+        'auth': <boolean>,
+        'safe_json': <boolean>,
+        'client_data': <dict>
+    }
+}
+```
+
+- _creds:_
+	Tuple of username and password to authenticate a GitHub API session.
+- _config:_
+	- config.reverse - Boolean toggle specifying if the password is reversed. 
+	- config.auth - Boolean to specify call to _auth_session on init.
+	- config.safe_json - Not implemented. Boolean toggle for Javascript friendly JSON if required.
+	- config.client_data - GitHub client data if a registered GitHub API client is available. Helps increase rate limiting bounds.
+
 ###GitHub instance members###
 - ```response```
 Contains the response for the previous API call and is updated whenever an API access method is invoked.
