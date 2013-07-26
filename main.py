@@ -3,10 +3,11 @@
 
 __author__ = 'sriramm'
 
-#pylint:disable=W0511,R0914
+#pylint:disable=W0511,R0914,W0142
 # Disables
 # W0511 : TODO tracks
 # R0914 : Instance attribute count
+# W0412 : magic calls
 
 import sys
 sys.dont_write_bytecode = True
@@ -16,7 +17,7 @@ from copy import deepcopy
 
 
 if __name__ == '__main__':
-    methods = load_json_file("methods.json")
+    RUN_METHODS = load_json_file("RUN_METHODS.json")
     USER_CREDS = get_auth()
     GH_OBJ = GitHub(creds=USER_CREDS['creds'],
                     config={
@@ -26,7 +27,7 @@ if __name__ == '__main__':
                         'client_data': USER_CREDS['client']
                     })
 
-    for (key, val) in methods.get('methods').iteritems():
+    for (key, val) in RUN_METHODS.get('RUN_METHODS').iteritems():
         GH_OBJ.__getattribute__(key)(**val)
         return_toggle_call_data = deepcopy(val)
         returns = return_toggle_call_data.get('returns')
