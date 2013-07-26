@@ -331,7 +331,7 @@ class GitHub(object):
         if returns:
             return self.response
 
-    def search_repos(self, query=None, returns=False):
+    def search_repos(self, query=None, returns=False, fields=[]):
         """
         Search users interface method
         :param query:str Query construct for search.
@@ -340,12 +340,32 @@ class GitHub(object):
         :param returns:bool Boolean param to toggle return for testing.
                     Method returns response if True;
                     else updates response class member
+        :param fields:iterable Iterable specifying the fieds to return
+                    in response
         """
         url = self.base_url + "/legacy/repos/search/"
         url += self._construct_query(query)
         response = self._get_data(url, returns=returns)
+        if not (isinstance(fields, list) or isinstance(fields, tuple)):
+            raise TypeError(self.msgs['invalid_iterable'])
+
+        return_response = {
+            'repositories': []
+        }
+
+        for repo in response.get('repositories'):
+            data = {}
+            for (key, val) in repo.iteritems():
+                if key in fields:
+                    data.update({key: val})
+            if data != {}:
+                return_response['repositories'].append(data)
+
+
+        self.response = return_response
+
         if returns:
-            return response
+            return self.response
 
     def get_user_events(self, user_name=None,
                         organization=False, returns=False):
