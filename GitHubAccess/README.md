@@ -17,6 +17,8 @@ Provides a base loader for authentication data from a JSON(ic) data construct wi
 
 - ```load_json_file : method```
 Provides a base loader for JSON(ic) data construct with the below data structure. Could be replaced with custom data loader to provide authentication credentials and client data to GitHubAccess object invocation.
+	+ Depends on soft tabbing with the input files (4 soft tabs/spaces) per level
+	+ Excludes inline commented lines
 
 
 - ```GitHub : Class```
