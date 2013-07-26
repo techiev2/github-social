@@ -72,6 +72,14 @@ Session authorization method. Depends on creds instance member for username/pass
 + ```:param data:dict```                     HTTP Request data as a dictionary. Would be stringified prior to submission.
 + ```:param returns: bool```                 Boolean kwarg to specify if the method needs to return response after updating the instance response member.
 
+#####- search_repos####
++ ```:param query:dict```                    Search query as dictionary with the following structure.
+	```{
+		keyword: <str>
+	}```
++ ```:param fields:iterable```               List of fields to return from search_repos method's API response.
++ ```:param returns: bool```                 Boolean kwarg to specify if the method needs to return response after updating the instance response member.
+
 ####Requirements: #####
 Uses the following modules/builtins
 + ```requests``` _Uses requests module for HTTP access to GitHub API end points. Simple reason, convenience. Not considering a fallback httplib2_
