@@ -41,11 +41,13 @@ def load_json_file(file_name=None):
         with open(file_name, "r") as data_file:
             response = [x for x in data_file.readlines()
                          if x.find('//') % 4 != 0]
+            response[-3:-2] = response[-3:-2][0].replace(',\n', '\n')
             response = reduce(lambda a, b: a.strip()
                                + b.strip(), response)
     except IOError:
         # Fail gracefully and send {} ?
         raise Exception("Unable to find specified file")
+
 
     if (isinstance(response, str) or isinstance(response, unicode)):
         try:
@@ -53,6 +55,7 @@ def load_json_file(file_name=None):
         except ValueError:
             raise Exception("Unable to parse ")
         except TypeError:
+            pass
             raise Exception("Unable to parse ")
 
     return response
