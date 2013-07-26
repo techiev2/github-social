@@ -17,12 +17,11 @@ from copy import deepcopy
 
 if __name__ == '__main__':
     methods = load_json_file("methods.json")
-    failure_methods = load_json_file("failure_methods.json")
     USER_CREDS = get_auth()
     GH_OBJ = GitHub(creds=USER_CREDS['creds'],
                     config={
                         'reverse': False,
-                        'auth': True,
+                        'auth': False,
                         'safe_json': True,
                         'client_data': USER_CREDS['client']
                     })
@@ -31,13 +30,14 @@ if __name__ == '__main__':
         GH_OBJ.__getattribute__(key)(**val)
         return_toggle_call_data = deepcopy(val)
         returns = return_toggle_call_data.get('returns')
+        print "Attempting method {0} from GitHub access".format(key)
         if returns:
             if returns == False:
                 return_toggle_call_data['returns'] = True
             if returns == True:
                 return_toggle_call_data['returns'] = False
             GH_OBJ.__getattribute__(key)(**return_toggle_call_data)
-
+ 
         try:
             assert isinstance(GH_OBJ.response, dict)
         except AssertionError:
