@@ -17,7 +17,7 @@ from copy import deepcopy
 
 
 if __name__ == '__main__':
-    RUN_METHODS = load_json_file("RUN_METHODS.json")
+    RUN_METHODS = load_json_file("methods.json")
     USER_CREDS = get_auth()
     GH_OBJ = GitHub(creds=USER_CREDS['creds'],
                     config={
@@ -27,7 +27,7 @@ if __name__ == '__main__':
                         'client_data': USER_CREDS['client']
                     })
 
-    for (key, val) in RUN_METHODS.get('RUN_METHODS').iteritems():
+    for (key, val) in RUN_METHODS.get('methods').iteritems():
         GH_OBJ.__getattribute__(key)(**val)
         return_toggle_call_data = deepcopy(val)
         returns = return_toggle_call_data.get('returns')
@@ -38,7 +38,7 @@ if __name__ == '__main__':
             if returns == True:
                 return_toggle_call_data['returns'] = False
             GH_OBJ.__getattribute__(key)(**return_toggle_call_data)
- 
+  
         try:
             assert isinstance(GH_OBJ.response, dict)
         except AssertionError:
