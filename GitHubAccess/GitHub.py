@@ -141,6 +141,7 @@ class GitHub(object):
         self.upass = self.upass[0:plen_mid][
             ::-1] + self.upass[plen_mid:plen][::-1]
 
+    @authenticated
     def _get_data(self, url, method='get', data=None, returns=False):
         """
         Requests get data helper class method
@@ -162,8 +163,10 @@ class GitHub(object):
 
             self.response = self.response.__getattribute__('_content')
             if self.response:
+                self.response = self._load_response(
+                                    self.response, returns=True)
                 if returns:
-                    return self._load_response(self.response, returns=returns)
+                    return self.response
 
     def _construct_query(self, query):
         """
