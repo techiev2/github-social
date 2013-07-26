@@ -253,8 +253,7 @@ class GitHub(object):
                 if returns:
                     return self._load_response(self.response, returns=returns)
 
-    @classmethod
-    def _construct_query(cls, query):
+    def _construct_query(self, query):
         """
         GitHub API legacy search end point friendly converter
         :param query:dict Construct for query
@@ -262,7 +261,7 @@ class GitHub(object):
         allowed = ['sort', 'order']
         keyword_warn = "No keyword provided for search. Defaulting to Python"
         if not isinstance(query, dict):
-            raise TypeError("Invalid data construct provided")
+            raise TypeError(self.msgs['construct_fail'])
 
         keyword = query.get('keyword', None)
 
