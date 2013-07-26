@@ -23,8 +23,8 @@ import getpass
 TRUE = [True, 1, '1', 'True']
 FALSE = [False, [], None, 0, '0', 'False', 'None']
 
-arg_parser = argparse.ArgumentParser(description="Creds loader")
-arg_parser.add_argument("--creds", help="Credentials file name")
+ARG_PARSER = argparse.ArgumentParser(description="Creds loader")
+ARG_PARSER.add_argument("--creds", help="Credentials file name")
 
 
 def load_json_file(file_name=None):
@@ -68,7 +68,7 @@ def get_auth(returns=True, creds_file=False):
         'exit_msg': "\nKeyboard interrupt. Exiting",
         'no_creds_msg': "No credentials found. Exiting"
     }
-    creds_file = arg_parser.parse_args().__getattribute__('creds')
+    creds_file = ARG_PARSER.parse_args().__getattribute__('creds')
 
     if not creds_file:
         print msgs['no_creds']
@@ -370,4 +370,4 @@ class GitHub(object):
         if returns:
             return self.response
 
-__all__ = ['GitHub', 'get_auth', 'arg_parser']
+__all__ = ['GitHub', 'get_auth', 'ARG_PARSER']
