@@ -131,6 +131,13 @@ class GitHub(object):
                 pretty: Boolean to pretty print response wherever applicable
                 safe_json: Boolean to return safe JSON for use with Javascript.
         """
+        self.msgs = {
+            'construct_fail':\
+             "Invalid data construct provided. Query needs to be a dictionary.",
+             'invalid_iterable':\
+             "Invalid data passed in. Requires an iterable."
+        }
+
         ex_msg = "Invalid data structure passed in. Need a creds tuple"
         default_config_msg = "Invalid config construct. Defaulting"
         if not isinstance(creds, tuple) or not (creds[0] or creds[1]):
