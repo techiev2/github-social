@@ -18,6 +18,7 @@ import logging
 from copy import deepcopy
 import argparse
 import getpass
+from utils import authenticated
 
 # Boolean checklist. Could be a case for ast ?
 TRUE = [True, 1, '1', 'True']
@@ -339,6 +340,7 @@ class GitHub(object):
         if returns:
             return self.response
 
+    @authenticated
     def search_repos(self, query=None, returns=False, fields=None):
         """
         Search users interface method
@@ -351,8 +353,6 @@ class GitHub(object):
         :param fields:iterable Iterable specifying the fieds to return
                     in response
         """
-        if not self.auth:
-            raise Exception(self.msgs['no_auth'])
         url = self.base_url + "/legacy/repos/search/"
         url += self._construct_query(query)
         response = self._get_data(url, returns=returns)
