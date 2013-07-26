@@ -38,10 +38,13 @@ def load_json_file(file_name=None):
         raise Exception("No file name specified for loading")
     try:
         with open(file_name, "r") as data_file:
-            response = [x for x in data_file.readlines() if x.find('//') % 4 != 0]
-            response = reduce(lambda a, b: a.strip() + b.strip(), response)
+            response = [x for x in data_file.readlines()
+                         if x.find('//') % 4 != 0]
+            response = reduce(lambda a, b: a.strip()
+                               + b.strip(), response)
     except IOError:
-        raise Exception("Unable to find specified file")  # Fail gracefully and send {} ?
+        # Fail gracefully and send {} ?
+        raise Exception("Unable to find specified file")
 
     if (isinstance(response, str) or isinstance(response, unicode)):
         try:
