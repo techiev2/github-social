@@ -138,7 +138,12 @@ class GitHub(object):
             'construct_fail':\
              "Invalid data construct provided. Query needs to be a dictionary.",
              'invalid_iterable':\
-             "Invalid data passed in. Requires an iterable."
+             "Invalid data passed in. Requires an iterable.",
+             "no_auth":\
+             "".join(
+              ["No authenticated session found.",
+               "Please init with auth=True or call ",
+               "auth_session manually before proceeding"])
         }
 
         ex_msg = "Invalid data structure passed in. Need a creds tuple"
@@ -346,6 +351,8 @@ class GitHub(object):
         :param fields:iterable Iterable specifying the fieds to return
                     in response
         """
+        if not self.auth:
+            raise Exception(self.msgs['no_auth'])
         url = self.base_url + "/legacy/repos/search/"
         url += self._construct_query(query)
         response = self._get_data(url, returns=returns)
