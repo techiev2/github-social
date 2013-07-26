@@ -334,7 +334,7 @@ class GitHub(object):
         if returns:
             return self.response
 
-    def search_repos(self, query=None, returns=False, fields=[]):
+    def search_repos(self, query=None, returns=False, fields=None):
         """
         Search users interface method
         :param query:str Query construct for search.
@@ -349,8 +349,12 @@ class GitHub(object):
         url = self.base_url + "/legacy/repos/search/"
         url += self._construct_query(query)
         response = self._get_data(url, returns=returns)
-        if not (isinstance(fields, list) or isinstance(fields, tuple)):
+        if not (isinstance(fields, list) or
+                 isinstance(fields, tuple) or fields == None):
             raise TypeError(self.msgs['invalid_iterable'])
+
+        if fields == None:
+            fields = []
 
         return_response = {
             'repositories': []
