@@ -84,7 +84,7 @@ Provides base class for accessing various GitHub API end points.
 	#####- get_user_events####
 	+ ```:param user_name:str```                 Username to get a list of events. Method returns a list of events created by the user.
 	+ ```:param organization:str```              Organization name to restrict the list of user events for the requested user.
-	+ ```:param event_types:iterable```          List of events to restrict the response to. Takes in standard GitHub user activity events.
+	+ ```:param event_types:iterable```          List of events to restrict the response to. Takes in standard GitHub user activity events listed [here](http://developer.github.com/v3/activity/events/types/ "GitHub Events").
 	+ ```:param returns: bool```                 Boolean kwarg to specify if the method needs to return response after updating the instance response member.
 
 	#####- get_user_stars####
