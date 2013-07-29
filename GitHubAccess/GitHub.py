@@ -16,7 +16,7 @@ from requests.auth import HTTPBasicAuth
 import json
 import logging
 from copy import deepcopy
-from GitHubAccess.utils import authenticated
+from GitHubAccess.utils import authenticated, is_iterable
 
 # Boolean checklist. Could be a case for ast ?
 TRUE = [True, 1, '1', 'True']
@@ -287,8 +287,11 @@ class GitHub(object):
         if returns:
             return self.response
 
-    def get_user_events(self, user_name=None,
-                        organization=False, returns=False):
+    def get_user_events(self,
+                        user_name=None,
+                        organization=False,
+                        event_types=None,
+                        returns=False):
         """
         Get public events initiated by specified user.
         :param user_name:str Username to query against.
@@ -311,11 +314,16 @@ class GitHub(object):
             base_url = user_org_events_url.format(self.base_url,
                                                   user_name,
                                                   organization)
-
         self.response = self._get_data(
             url=base_url,
             data={},
             returns=returns)
+
+        if is_iterable(event_types):
+            self.response = [x for x in self.response
+                              if x.get("type") in event_types]
+        else:
+            logging.warn("Non iterable event types param passed.")
         if returns:
             return self.response
 
