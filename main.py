@@ -14,6 +14,7 @@ sys.dont_write_bytecode = True
 
 from GitHubAccess import GitHub, get_auth, load_json_file
 from copy import deepcopy
+import pprint
 
 
 if __name__ == '__main__':
@@ -22,7 +23,7 @@ if __name__ == '__main__':
     GH_OBJ = GitHub(creds=USER_CREDS['creds'],
                     config={
                         'reverse': False,
-                        'auth': False,
+                        'auth': True,
                         'safe_json': True,
                         'client_data': USER_CREDS['client']
                     })
@@ -38,8 +39,8 @@ if __name__ == '__main__':
             if returns == True:
                 return_toggle_call_data['returns'] = False
             GH_OBJ.__getattribute__(key)(**return_toggle_call_data)
-  
+
         try:
             assert isinstance(GH_OBJ.response, dict)
         except AssertionError:
-            pass
+            pass               
