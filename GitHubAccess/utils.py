@@ -140,11 +140,18 @@ def is_iterable(iterable):
     an isinstance response for list|tuple.
     :param iterable:object Object to check for iterability.
     """
-    object_iterable = False
-    if iterable:
-        if (isinstance(iterable, list) or isinstance(iterable, tuple)):
-            object_iterable = True
-    return object_iterable
+    return isinstance(iterable, list) or isinstance(iterable, tuple)
 
+def is_stringy(in_string):
+    """
+    Helper to check if an object is stringy.
+    Used with methods that do json.loads(). Returns the
+    an isinstance response for str|unicode.
+    :param iterable:object Object to check for iterability.
+    """
+    if in_string:
+        return isinstance(in_string, str) or isinstance(in_string, unicode)
 
-__all__ = ['authenticated', 'get_auth', 'load_json_file', 'is_iterable']
+__all__ = ['authenticated', 'get_auth',
+           'load_json_file', 'is_iterable',
+           'is_stringy']
