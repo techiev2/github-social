@@ -81,6 +81,17 @@ Provides base class for accessing various GitHub API end points.
 	+ ```:param fields:iterable```               List of fields to return from search_repos method's API response.
 	+ ```:param returns: bool```                 Boolean kwarg to specify if the method needs to return response after updating the instance response member.
 
+	#####- get_user_events####
+	+ ```:param user_name:str```                 Username to get a list of events. Method returns a list of events created by the user.
+	+ ```:param organization:str```              Organization name to restrict the list of user events for the requested user.
+	+ ```:param event_types:iterable```          List of events to restrict the response to. Takes in standard GitHub user activity events.
+	+ ```:param returns: bool```                 Boolean kwarg to specify if the method needs to return response after updating the instance response member.
+
+	#####- get_user_stars####
+	+ ```:param user_name:str```                 Username to get a list of starred repositories.
+	+ ```:param repo_language:str```             Language string to restrict the list of user starred repositories to.
+	+ ```:param returns: bool```                 Boolean kwarg to specify if the method needs to return response after updating the instance response member.
+
 ####Requirements: #####
 Uses the following modules/builtins
 + ```requests``` _Uses requests module for HTTP access to GitHub API end points. Simple reason, convenience. Not considering a fallback httplib2_
