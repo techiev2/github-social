@@ -327,4 +327,34 @@ class GitHub(object):
         if returns:
             return self.response
 
+    def get_user_stars(self,
+                   user_name=None,
+                   returns=False,
+                   repo_language=None):
+        """
+        Get the list of repositories a user has starred.
+        :param user_name:str Username to query against.
+        :param returns:bool Boolean param to toggle return for testing.
+                    Method returns response if True;
+                    else updates response class member
+        :param repo_language:str Language filter for user starred repositories.
+        """
+        user_stars_url = "{0}/users/{1}/starred"
+        if not (user_name or not (isinstance(user_name, str)
+                               or isinstance(user_name, unicode))):
+            raise Exception("No valid username provided. Exiting")
+        else:
+            user_stars_url = user_stars_url.format(self.base_url, user_name)
+            self.response = self._get_data(
+                                   url=user_stars_url,
+                                   method='GET',
+                                   data={},
+                                   returns=returns)
+            if repo_language:
+                self.response = [x for x in self.response
+                                  if x.get('language') == repo_language]
+            if returns:
+                return self.response
+
+
 __all__ = "GitHub*get_auth*load_json_file*ARG_PARSER".split("*")
