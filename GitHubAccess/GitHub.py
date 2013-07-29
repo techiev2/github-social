@@ -16,7 +16,7 @@ from requests.auth import HTTPBasicAuth
 import json
 import logging
 from copy import deepcopy
-from GitHubAccess.utils import authenticated, is_iterable
+from GitHubAccess.utils import authenticated, is_iterable, is_stringy
 
 # Boolean checklist. Could be a case for ast ?
 TRUE = [True, 1, '1', 'True']
@@ -235,7 +235,8 @@ class GitHub(object):
         self._get_data(url)
         if fields and (isinstance(fields, list)
                        or isinstance(fields, tuple)):
-            self.response = json.loads(self.response)
+            if is_stringy(self.response):
+                self.response = json.loads(self.response)
             response = deepcopy(self.response)
             response_copy = deepcopy(response)
             for key in response_copy.iterkeys():
