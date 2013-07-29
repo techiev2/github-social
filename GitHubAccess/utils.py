@@ -133,5 +133,18 @@ def get_auth(returns=True, creds_file=False):
         return user_creds
 
 
+def is_iterable(iterable):
+    """
+    Helper to check if an object is an iterable.
+    Used with methods where data filter is used. Returns the
+    an isinstance response for list|tuple.
+    :param iterable:object Object to check for iterability.
+    """
+    object_iterable = False
+    if iterable:
+        if (isinstance(iterable, list) or isinstance(iterable, tuple)):
+            object_iterable = True
+    return object_iterable
 
-__all__ = ['authenticated', 'get_auth', 'load_json_file']
+
+__all__ = ['authenticated', 'get_auth', 'load_json_file', 'is_iterable']
