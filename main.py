@@ -14,7 +14,6 @@ sys.dont_write_bytecode = True
 
 from GitHubAccess import GitHub, get_auth, load_json_file
 from copy import deepcopy
-import pprint
 
 
 if __name__ == '__main__':
@@ -23,13 +22,20 @@ if __name__ == '__main__':
     GH_OBJ = GitHub(creds=USER_CREDS['creds'],
                     config={
                         'reverse': False,
-                        'auth': True,
+                        'auth': False,
                         'safe_json': True,
-                        'client_data': USER_CREDS['client']
+                        'client_data': USER_CREDS['client'],
+                        "scopes": ["repo", "user:email"]
                     })
 
     for (key, val) in RUN_METHODS.get('methods').iteritems():
-        GH_OBJ.__getattribute__(key)(**val)
+
+        params = RUN_METHODS.get("methods")[key]
+        meta = params.get("meta", None)
+        if meta:
+            params.pop("meta")
+
+        GH_OBJ.__getattribute__(key)(**params)
         return_toggle_call_data = deepcopy(val)
         returns = return_toggle_call_data.get('returns')
         print "Attempting method {0} from GitHub access".format(key)
@@ -42,5 +48,13 @@ if __name__ == '__main__':
 
         try:
             assert isinstance(GH_OBJ.response, dict)
+            if meta:
+                print_response = meta.get("print", False)
+                callback = meta.get("callback", False) 
+                if print_response:
+                    print GH_OBJ.response
+                if callback:
+                    print callback
         except AssertionError:
             pass               
+
