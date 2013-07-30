@@ -119,6 +119,12 @@ class GitHub(object):
             ]
         })  # Needs to be updatable from config. #TODO
 
+        # If config brings in an alternative scope requirement
+        # update the scope for authorization data
+        config_scopes = self.config.get("scopes")
+        if config_scopes:
+            data['scopes'] = config_scopes
+
         self.response = self.session.post(
             'https://api.github.com/authorizations',
             auth=self.auth,
