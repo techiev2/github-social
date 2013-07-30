@@ -213,10 +213,13 @@ class GitHub(object):
             return self._get_data(base_url.format(
                 username, action), returns=returns)
 
-    def get_repo_info(self, user_name=None,
-                      repo_name=None, fields=None, returns=False):
-        """Get repository information
-        :rtype : None
+    def get_repo_info(self,
+                      user_name=None,
+                      repo_name=None,
+                      fields=None,
+                      returns=False):
+        """
+        Get repository information
         :param user_name:str Username for repository search.
                             Defaults to session user
         :param repo_name:str Repository name to fetch information for.
@@ -247,7 +250,6 @@ class GitHub(object):
         if returns:
             return self.response
 
-    @authenticated
     def search_repos(self, query=None, returns=False, fields=None):
         """
         Search users interface method
