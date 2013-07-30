@@ -47,7 +47,9 @@ class GitHub(object):
              "".join(
               ["No authenticated session found.",
                "Please init with auth=True or call ",
-               "auth_session manually before proceeding"])
+               "auth_session manually before proceeding"]),
+             "no_token": "No token received.",
+             "bad_creds": "Authentication failure. Invalid credentials"
         }
 
         ex_msg = "Invalid data structure passed in. Need a creds tuple"
@@ -112,8 +114,7 @@ class GitHub(object):
         """
         self.session = requests.Session()
         self.auth = HTTPBasicAuth(*self.creds)
-        data = self.client_data
-        data.update({
+        self.client_data.update({
             'scopes': [
                 'repo'
             ]
@@ -123,12 +124,12 @@ class GitHub(object):
         # update the scope for authorization data
         config_scopes = self.config.get("scopes")
         if config_scopes:
-            data['scopes'] = config_scopes
+            self.client_data['scopes'] = config_scopes
 
         self.response = self.session.post(
             'https://api.github.com/authorizations',
             auth=self.auth,
-            data=json.dumps(data)
+            data=json.dumps(self.client_data)
         )
         content = self.response.__getattribute__('_content')
         if content:
@@ -136,6 +137,15 @@ class GitHub(object):
             self.token = self.response.get('token', None)
             if self.token:
                 self.session.headers["Authorization"] = "token %s" % self.token
+            else:
+                response_msg = self.response.get('message', None)
+                if response_msg:
+                    if response_msg == 'Bad credentials':
+                        raise Exception(self.msgs['bad_creds'])
+                    else:
+                        raise Exception(response_msg)
+                else:
+                    raise Exception(self.msgs['no_token'])
 
     def _reverse_upass(self):
         """
