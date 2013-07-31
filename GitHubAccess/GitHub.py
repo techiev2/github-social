@@ -217,7 +217,7 @@ class GitHub(object):
                         Currently supports only repos.
         """
         base_url = 'https://api.github.com/users/{0}/{1}'
-        allowed_actions = ['repos']
+        allowed_actions = ['repos', 'followers']
         user_name = user_name or self.uname
 
         if not action in allowed_actions:
@@ -225,9 +225,15 @@ class GitHub(object):
         action = action.lower()
         username = user_name.lower()
 
+        self.response = self._get_data(base_url.format(
+            username, action), returns=returns)
+        if action == 'followers':
+            self.response = {
+                'followers': self.response
+            }
+
         if returns:
-            return self._get_data(base_url.format(
-                username, action), returns=returns)
+            return self.response
 
     def get_repo_info(self,
                       user_name=None,
