@@ -345,8 +345,11 @@ class GitHub(object):
             returns=returns)
 
         if is_iterable(event_types):
-            self.response = [x for x in self.response
+            self.response = {
+                'user_name': user_name,
+                'events': [x for x in self.response
                               if x.get("type") in event_types]
+            }
         else:
             logging.warn("Non iterable event types param passed.")
         if returns:
