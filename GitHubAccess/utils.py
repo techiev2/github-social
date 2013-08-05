@@ -96,7 +96,7 @@ def get_auth(returns=True, creds_file=False):
             uname = raw_input(msgs['uname_input'])
             upass = getpass.getpass(msgs['upass_input'])
             client_id = raw_input(msgs['client_id_input']) or ''
-            client_secret = raw_input(['client_secret_input']) or ''
+            client_secret = raw_input(msgs['client_secret_input']) or ''
         except KeyboardInterrupt:
             quit(msgs['exit_msg'])
 
