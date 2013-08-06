@@ -101,11 +101,13 @@ class GitHub(object):
         if not (isinstance(content, str) or isinstance(content, unicode)):
             raise Exception("Invalid load data")
 
-        content = json.loads(content)
-        if not returns:
+        try:
+            content = json.loads(content)
             self.response = content
-        else:
-            return content
+        except Exception:
+            pass
+        if returns:
+            return self.response
 
     def _auth_session(self):
         """
@@ -115,8 +117,8 @@ class GitHub(object):
         self.session = requests.Session()
         self.auth = HTTPBasicAuth(*self.creds)
         self.client_data.update({
-            'scopes': [
-                'repo'
+            "scopes": [
+                "repo"
             ]
         })  # Needs to be updatable from config. #TODO
 
@@ -132,8 +134,11 @@ class GitHub(object):
             data=json.dumps(self.client_data)
         )
         content = self.response.__getattribute__('_content')
+        if content.find("<html>") == 0:  # Rudimentary exception catching
+            raise Exception("API Exception. Try later")
+
         if content:
-            self._load_response(content)
+            self.response = self._load_response(content, returns=True)
             self.token = self.response.get('token', None)
             if self.token:
                 self.session.headers["Authorization"] = "token %s" % self.token
@@ -179,10 +184,9 @@ class GitHub(object):
 
             self.response = self.response.__getattribute__('_content')
             if self.response:
-                self.response = self._load_response(
-                                    self.response, returns=True)
-                if returns:
-                    return self.response
+                self._load_response(self.response)
+            if returns:
+                return self.response
 
     def _construct_query(self, query):
         """
@@ -314,7 +318,7 @@ class GitHub(object):
 
     def get_user_events(self,
                         user_name=None,
-                        organization=False,
+                        organization=None,
                         event_types=None,
                         returns=False):
         """
@@ -374,10 +378,10 @@ class GitHub(object):
         else:
             user_stars_url = user_stars_url.format(self.base_url, user_name)
             self.response = self._get_data(
-                                   url=user_stars_url,
-                                   method='GET',
-                                   data={},
-                                   returns=returns)
+                               url=user_stars_url,
+                               method='GET',
+                               data={},
+                               returns=returns)
             if repo_language:
                 self.response = [x for x in self.response
                                   if x.get('language') == repo_language]
