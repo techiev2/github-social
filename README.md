@@ -24,3 +24,7 @@ Uses the following modules/builtins
 + ```getpass``` _For password entry in case of a creds file absence_
 + ```argparse``` _Argument parsing for credentials._
 + ```json``` _JSON loader for creds file data._
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/techiev2/github-social/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
